@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  title: string = ''
+
+  constructor() { this.title = 'hoge';}
 
 }
