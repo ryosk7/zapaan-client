@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Sheet } from '../Sheet';
+import { Sheet } from '../sheet.model';
 import { SheetService } from '../sheet.service'
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-sheets',
@@ -11,16 +12,16 @@ export class SheetsComponent implements OnInit {
 
   sheets: Sheet[];
 
-  constructor(private sheetService: SheetService) {
-    // console.log(this.getSheets());
+  constructor(private sheetService: SheetService, public apiService: ApiService) {
   }
 
   ngOnInit() {
-    this.getSheets();
+    this.getSheets()
   }
 
   getSheets(): void {
-    this.sheetService.getSheets()
+    this.sheetService
+      .load()
       .subscribe(sheets => this.sheets = sheets);
   }
 

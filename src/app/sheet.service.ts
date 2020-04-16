@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Sheet } from './sheet';
-import { Observable, of } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Sheet } from '../app/sheet.model';
+import { Observable } from 'rxjs';
+import { ApiService } from './api.service';
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SheetService {
-  private sheetUrl = 'http://localhost:3000/todos';
-  constructor(private http: HttpClient) { console.log(this.getSheets())}
+  url: string = 'todos';
+  constructor(public api: ApiService) {}
 
-  getSheets(): Observable<Sheet[]> {
-    return this.http.get<Sheet[]>(this.sheetUrl)
+  load(): Observable<Sheet[]> {
+    return this.api
+      .get(this.url)
+      .pipe(map(sheets => sheets.map(sheet => new Sheet(sheet))));
   }
 }
