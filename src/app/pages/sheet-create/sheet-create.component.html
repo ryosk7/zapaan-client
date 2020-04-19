@@ -1,0 +1,11 @@
+<form>
+  <ion-item>
+    <ion-input placeholder="なにする？" #sheetContent ></ion-input>
+  </ion-item>
+  <ion-button
+    type="submit"
+    (click)="createSheet(sheetContent.value); sheetContent.value=''"
+  >
+    create!
+  </ion-button> 
+</form>

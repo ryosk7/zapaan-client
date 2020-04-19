@@ -1,0 +1,17 @@
+<ng-container
+  *ngFor="let sheet of sheets"
+>
+  <ion-card>
+    <ion-card-header>
+      <ion-icon name="create-outline"></ion-icon>
+      <ion-icon name="trash-outline" (click)="delete(sheet)"></ion-icon>
+      <ion-card-title>{{ sheet.content }}</ion-card-title>
+    </ion-card-header>
+    <h3>{{ sheet.time }}</h3>
+    <ion-button color="success">start!</ion-button>
+  </ion-card>
+</ng-container>
+<ion-icon
+  name="add-circle-outline"
+  (click)="goToCreateSheet()"
+></ion-icon>

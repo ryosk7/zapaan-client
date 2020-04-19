@@ -9,16 +9,22 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { ApiService } from './api.service';
+import { ApiService } from './services/api/api.service';
+import { FormsModule } from '@angular/forms';
+import { SheetCreateComponent } from '../app/pages/sheet-create/sheet-create.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [
+    AppComponent,
+    SheetCreateComponent
+  ],
+  entryComponents: [SheetCreateComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
+    FormsModule
   ],
   providers: [
     StatusBar,

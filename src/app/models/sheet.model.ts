@@ -1,7 +1,7 @@
 export class Sheet {
   id: number;
-  title: string;
-  create_by: number;
+  content: string;
+  time: Date;
 
   constructor(fields: any) {
     for (const f in fields) {
