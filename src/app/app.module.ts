@@ -12,13 +12,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { ApiService } from './services/api/api.service';
 import { FormsModule } from '@angular/forms';
 import { SheetCreateComponent } from '../app/pages/sheet-create/sheet-create.component';
+import { SheetUpdateComponent } from '../app/pages/sheet-update/sheet-update.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SheetCreateComponent
+    SheetCreateComponent,
+    SheetUpdateComponent
   ],
-  entryComponents: [SheetCreateComponent],
+  entryComponents: [SheetCreateComponent, SheetUpdateComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

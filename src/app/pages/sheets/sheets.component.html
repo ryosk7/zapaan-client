@@ -2,9 +2,17 @@
   *ngFor="let sheet of sheets"
 >
   <ion-card>
+    <div class="icon-wrappr">
+      <ion-row>
+        <ion-col size="6">
+          <ion-icon name="trash-outline" size="large" (click)="delete(sheet)"></ion-icon>
+        </ion-col>
+        <ion-col size="6">
+          <ion-icon name="create-outline" size="large" (click)="goToUpdateSheet(sheet)"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </div>
     <ion-card-header>
-      <ion-icon name="create-outline"></ion-icon>
-      <ion-icon name="trash-outline" (click)="delete(sheet)"></ion-icon>
       <ion-card-title>{{ sheet.content }}</ion-card-title>
     </ion-card-header>
     <h3>{{ sheet.time }}</h3>
@@ -13,5 +21,6 @@
 </ng-container>
 <ion-icon
   name="add-circle-outline"
+  size="large"
   (click)="goToCreateSheet()"
 ></ion-icon>

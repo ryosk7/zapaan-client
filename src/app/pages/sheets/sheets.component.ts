@@ -4,6 +4,7 @@ import { SheetService } from '../../services/sheet/sheet.service'
 import { ApiService } from '../../services/api/api.service';
 import { ModalController } from '@ionic/angular';
 import { SheetCreateComponent } from '../sheet-create/sheet-create.component';
+import { SheetUpdateComponent } from '../sheet-update/sheet-update.component';
 
 @Component({
   selector: 'app-sheets',
@@ -22,7 +23,7 @@ export class SheetsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getSheets()
+    this.getSheets();
   }
 
   getSheets(): void {
@@ -42,7 +43,35 @@ export class SheetsComponent implements OnInit {
     const modal = await this.modalController.create({
       component: SheetCreateComponent
     });
+    modal.onDidDismiss().then(res => {
+      if (res && res.data !== null && res.data == true) {
+        this.getSheets();
+      }
+    });
     return await modal.present();
   }
 
+  async goToUpdateSheet(sheet: Sheet) {
+    const modal = await this.modalController.create({
+      component: SheetUpdateComponent,
+      componentProps: {
+        'sheet': this.buildSheet(sheet)
+      }
+    });
+    modal.onDidDismiss()
+         .then((res) => {
+           if (res && res.data !== null && res.data == true) {
+             this.getSheets();
+           }
+         })
+    return await modal.present();
+  }
+
+  buildSheet(sheet: Sheet): Sheet {
+    return new Sheet({
+      id: sheet.id,
+      content: sheet.content,
+      time: sheet.time
+    });
+  }
 }

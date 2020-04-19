@@ -1,0 +1,7 @@
+<ion-icon name="close-circle-outline" size="large" (click)="dismiss()"></ion-icon>
+<ion-item>
+  <ion-input [(ngModel)]="sheet.content" placeholder="やること" #sheetContent></ion-input>
+</ion-item>
+<ion-button type="submit" (click)="updateSheet(sheetContent.value); sheetContent.value=''">
+  update!
+</ion-button>

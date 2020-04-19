@@ -21,6 +21,12 @@ export class SheetService {
     return this.api.post(this.url, data);
   }
 
+  update(data: Sheet): Observable<any> {
+    const id = typeof data === 'number' ? data : data.id;
+    const url = `${this.url}/${id}`;
+    return this.api.patch(url, data);
+  }
+
   delete(data: Sheet | number): Observable<any> {
     const id = typeof data === 'number' ? data : data.id;
     const url = `${this.url}/${id}`;
