@@ -71,7 +71,10 @@ export class SheetsComponent implements OnInit {
     return new Sheet({
       id: sheet.id,
       content: sheet.content,
-      time: sheet.time
+      count: sheet.count,
+      start_time: sheet.start_time,
+      current_time: sheet.current_time,
+      finish_time: sheet.finish_time
     });
   }
 }
