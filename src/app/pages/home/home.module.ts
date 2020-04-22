@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SheetsComponent } from '../sheets/sheets.component';
 import { HomePage } from './home.page';
+import { TimerComponent } from '../timer/timer.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { HomePage } from './home.page';
   ],
   declarations: [
     HomePage,
-    SheetsComponent
+    SheetsComponent,
+    TimerComponent
   ]
 })
 export class HomePageModule {}
