@@ -6,54 +6,63 @@ import { Subscription, interval } from 'rxjs';
 })
 export class TimerService {
 
+  running = false;
+  value = [25, 0];
   subscription: Subscription;
+
+  m: number = 25;
+  s: number = 0;
   onComplete: EventEmitter<any> = new EventEmitter();
 
   constructor() { }
 
-  startTimer(running: boolean, value: number[], subscription: Subscription): { boolean, Subscription } {
-    if (!running) {
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  start(): void {
+    if (!this.running) {
       // Set running to true.
-      running = true;
+      this.running = true;
       // Check if the timer is comeplete and if so reset it before starting.
-      if (value[0] === 0 && value[1] === 0) {
-        this.resetTimer(value[0], value[1], running, subscription);
+      if (this.value[0] === 0 && this.value[1] === 0) {
+        this.reset();
       }
       // Create Rxjs interval to call a update method every second.
-      subscription = interval(1000).subscribe(x => this.updateTimer(running, value, subscription));
+      this.subscription = interval(1000).subscribe(x => this.update());
     }
-    return { boolean: running, Subscription: subscription };
   }
 
-  stopTimer(running: boolean, subscription: Subscription): { boolean, Subscription} {
-    if (running) {
+  stop(): void {
+    if (this.running) {
       // Set running to false.
-      running = false;
+      this.running = false;
       // If we want to stop the timer then unsubscribe from the interval.
-      if (subscription) {
-        subscription.unsubscribe();
+      if (this.subscription) {
+        this.subscription.unsubscribe();
       }
     }
-    return { boolean: running, Subscription: subscription};
   }
 
-  resetTimer(m: number, s: number, running: boolean, subscription: Subscription): number[] {
+  reset(): void {
     // Set the minutes and seconds back to their original values.
-    this.stopTimer(running, subscription);
-    return [m, s];
+    this.stop();
+    this.value = [this.m, this.s];
   }
 
-  updateTimer(running: boolean, value: number[], subscription: Subscription): number[] {
-    if (running) {
+  update(): void {
+    if (this.running) {
       // Check if the timer is comeplete and if so stop the timer and run onComplete().
-      if (value[0] === 0 && value[1] === 0) {
-        this.stopTimer(running, subscription);
+      if (this.value[0] === 0 && this.value[1] === 0) {
+        this.stop();
         // Make a sound/send an alert.
         this.onComplete.emit();
-      } else if (value[0] !== 0 && value[1] === 0) {
-        value = [value[0] - 1, 59];
-      } else if (value[1] !== 0) {
-        return [value[0], value[1] - 1];
+      } else if (this.value[0] !== 0 && this.value[1] === 0) {
+        this.value = [this.value[0] - 1, 59];
+      } else if (this.value[1] !== 0) {
+        this.value = [this.value[0], this.value[1] - 1];
       }
     }
   }

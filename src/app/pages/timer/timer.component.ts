@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
+import { TimerService } from '../../services/timer/timer.service'
 
 @Component({
   selector: 'app-timer',
@@ -8,8 +9,8 @@ import { Subscription, interval } from 'rxjs';
 })
 export class TimerComponent implements OnInit {
 
-  @Input() m: number;
-  @Input() s: number;
+  m: number = 25;
+  s: number = 0;
   // tslint:disable-next-line:no-output-on-prefix
   @Output() onComplete: EventEmitter<any> = new EventEmitter();
 
@@ -17,38 +18,21 @@ export class TimerComponent implements OnInit {
   value = [25, 0];
   subscription: Subscription;
 
-  constructor() { }
+  constructor(private timerService: TimerService) { }
 
-  ngOnInit(): void {
-    if (this.m) {
-      this.value[0] = this.m;
-    } else {
-      this.m = 25;
-    }
-    if (this.s) {
-      this.value[1] = this.s;
-    } else {
-      this.s = 0;
-    }
-  }
+  ngOnInit(): void {}
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
-  }
+  // delete(sheet: Sheet): void {
+  //   this.sheets = this.sheets.filter(s => s !== sheet);
+  //   this.sheetService.delete(sheet).subscribe(sheet => {
+  //     this.getSheets();
+  //   });
+  // }
 
   startTimer(): void {
-    if (!this.running) {
-      // Set running to true.
-      this.running = true;
-      // Check if the timer is comeplete and if so reset it before starting.
-      if (this.value[0] === 0 && this.value[1] === 0) {
-        this.resetTimer();
-      }
-      // Create Rxjs interval to call a update method every second.
-      this.subscription = interval(1000).subscribe(x => this.updateTimer());
-    }
+    this.timerService.start().subscribe(timer => {
+      
+    });
   }
 
   stopTimer(): void {

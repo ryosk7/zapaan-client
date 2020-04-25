@@ -1,13 +1,13 @@
 <div class="controls">
   <button type="button" class="btn btn-primary" (click)="switchToPomodoro()">Pomodoro</button>
-  <button type="button" class="btn btn-primary" (click)="switchToShortBreak()">Short Break</button>
-  <button type="button" class="btn btn-primary" (click)="switchToLongBreak()">Long Break</button>
+  <!-- <button type="button" class="btn btn-primary" (click)="switchToShortBreak()">Short Break</button>
+  <button type="button" class="btn btn-primary" (click)="switchToLongBreak()">Long Break</button> -->
 </div>
 
 <div [ngSwitch]="this.mode">
-  <app-timer *ngSwitchCase="'pomodoro'" [m]=25 [s]=0 (onComplete)="onTimerComplete()"></app-timer>
-  <app-timer *ngSwitchCase="'short'" [m]=5 [s]=0 (onComplete)="onTimerComplete()"></app-timer>
-  <app-timer *ngSwitchCase="'long'" [m]=15 [s]=0 (onComplete)="onTimerComplete()"></app-timer>
+  <app-timer *ngSwitchCase="'pomodoro'"(onComplete)="onTimerComplete()"></app-timer>
+  <!-- <app-timer *ngSwitchCase="'short'" [m]=5 [s]=0 (onComplete)="onTimerComplete()"></app-timer>
+  <app-timer *ngSwitchCase="'long'" [m]=15 [s]=0 (onComplete)="onTimerComplete()"></app-timer> -->
 </div>
 
 <p class="counter"><em>You have completed {{pomodoroCount}} Pomodoros this session</em></p>
