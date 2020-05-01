@@ -1,10 +1,7 @@
-<ion-header collapse="condense" [translucent]="true">
-  <ion-toolbar>
-    <ion-title size="large">Zapaan</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div class="timer">
+    {{value[0] < 10 ? 0 : ''}}{{value[0]}}:{{value[1] < 10 ? 0 : ''}}{{value[1]}}
+  </div>
   <div id="container">
     <ng-container *ngFor="let sheet of sheets">
       <ion-card>
@@ -21,20 +18,15 @@
         <ion-card-header>
           <ion-card-title>{{ sheet.content }}</ion-card-title>
         </ion-card-header>
-        <h3>{{ sheet.time }}</h3>
-        <ion-button color="success">start!</ion-button>
+        <!-- <h3>{{ sheet.time }}</h3> -->
+        <ion-button color="success" (click)="startTimer()" >
+          <ion-icon name="play-outline"></ion-icon>
+        </ion-button>
+        <ion-button color="danger" (click)="stopTimer()" >
+          <ion-icon name="stop-outline"></ion-icon>
+        </ion-button>
       </ion-card>
     </ng-container>
     <ion-icon name="add-circle-outline" size="large" (click)="goToCreateSheet()"></ion-icon>
-  </div>
-  <div class="container">
-    <h1 class="display-1">
-      {{value[0] < 10 ? 0 : ''}}{{value[0]}}:{{value[1] < 10 ? 0 : ''}}{{value[1]}}
-    </h1>
-    <div class="controls">
-      <button type="button" class="btn btn-success" (click)="startTimer()">Start</button>
-      <button type="button" class="btn btn-danger" (click)="stopTimer()">Stop</button>
-      <button type="button" class="btn btn-secondary" (click)="resetTimer()">Reset</button>
-    </div>
   </div>
 </ion-content>
