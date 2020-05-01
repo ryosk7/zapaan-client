@@ -20,9 +20,10 @@ export class HomePage {
   @Output() onComplete: EventEmitter<any> = new EventEmitter();
 
   running = false;
-  value = [25, 0];
+  value = [0, 5];
   subscription: Subscription;
   sheets: Sheet[];
+  isbreak: boolean = false;
 
   constructor(
     private sheetService: SheetService,
@@ -42,6 +43,7 @@ export class HomePage {
     } else {
       this.s = 0;
     }
+    this.isbreak = this.getbreak();
   }
 
   ngOnDestroy(): void {
@@ -71,6 +73,12 @@ export class HomePage {
       if (this.subscription) {
         this.subscription.unsubscribe();
       }
+    }
+  }
+
+  getbreak(): boolean {
+    if (this.value[0] === 0 && this.value[1] === 0) {
+      return this.isbreak = true;
     }
   }
 
