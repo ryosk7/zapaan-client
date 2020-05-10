@@ -27,6 +27,8 @@ export class HomePage {
   isPushedBreak: boolean = false;
   pomodoroCount: number = 0;
 
+  selectedSheet: Sheet;
+
   constructor(
     private sheetService: SheetService,
     public apiService: ApiService,
@@ -57,6 +59,7 @@ export class HomePage {
     if (!this.running) {
       // Set running to true.
       this.running = true;
+      this.selectSheetTimer(this.selectedSheet);
       // Check if the timer is comeplete and if so reset it before starting.
       if (this.isBreak == false && this.value[0] === 0 && this.value[1] === 0) {
         this.breakStartTimer();
@@ -96,6 +99,35 @@ export class HomePage {
     }
   }
 
+  selectSheetTimer(sheet: Sheet): void {
+    this.selectedSheet = sheet;
+    if (this.running && sheet.isFirstGoOnSheet()) {
+      const currentSheet = this.buildSheet(sheet);
+      currentSheet.start_time = this.currentDateTimeToString();
+      this.updateSheet(currentSheet);
+    } else if (sheet.isFirstGoOnSheet()) {
+      const currentSheet = this.buildSheet(sheet);
+      currentSheet.start_time = this.currentDateTimeToString();
+    } else {
+      return;
+    }
+  }
+
+  proguressSheetTimeRecord(sheet: Sheet): void {
+    const currentSheet = this.buildSheet(sheet);
+    currentSheet.current_time = this.currentDateTimeToString();
+    this.updateSheet(currentSheet);
+  }
+
+  currentDateTimeToString(): string {
+    let currentDateTime = new Date();
+    // FIXME: サーバー側でやりたい
+    // 9時間追加する
+    const milliSeconds = currentDateTime.setHours(currentDateTime.getHours() + 9);
+    currentDateTime = new Date(milliSeconds);
+    return currentDateTime.toString();
+  }
+
   resetTimer(): void {
     // Set the minutes and seconds back to their original values.
     this.stopTimer();
@@ -107,6 +139,7 @@ export class HomePage {
       // Check if the timer is comeplete and if so stop the timer and run onComplete().
       if (this.isBreak == false && this.value[0] === 0 && this.value[1] === 0) {
         this.stopTimer();
+        this.proguressSheetTimeRecord(this.selectedSheet);
         this.pomodoroCount += 1;
         this.isBreak = true;
         // Make a sound/send an alert.
@@ -177,5 +210,12 @@ export class HomePage {
       current_time: sheet.current_time,
       finish_time: sheet.finish_time
     });
+  }
+
+  updateSheet(sheet: Sheet): void {
+    this.sheetService
+      .update(sheet as Sheet)
+      .subscribe(sheet => {
+      });
   }
 }
