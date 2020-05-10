@@ -13,7 +13,11 @@ export class SheetCreateComponent implements OnInit {
 
   sheet: Sheet;
 
-  constructor(private sheetService: SheetService, public apiService: ApiService, public modalController: ModalController) {
+  constructor(
+    private sheetService: SheetService,
+    public apiService: ApiService,
+    public modalController: ModalController
+  ) {
   }
 
   ngOnInit() {}

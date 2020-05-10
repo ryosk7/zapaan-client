@@ -11,12 +11,15 @@ import { NavParams, ModalController } from '@ionic/angular';
 })
 export class SheetUpdateComponent implements OnInit {
 
-  id: number;
   @Input() content: string;
-  time: Date;
   sheet: Sheet;
 
-  constructor(private sheetService: SheetService, public apiService: ApiService, navParams: NavParams, public modalController: ModalController) {
+  constructor(
+    private sheetService: SheetService,
+    public apiService: ApiService,
+    navParams: NavParams,
+    public modalController: ModalController
+  ) {
     this.sheet = navParams.get('sheet');
   }
 

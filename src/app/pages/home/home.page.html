@@ -1,10 +1,23 @@
-<ion-header collapse="condense" [translucent]="true">
-  <ion-toolbar>
-    <ion-title size="large">Zapaan</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
+  <div class="timer">
+    {{value[0] < 10 ? 0 : ''}}{{value[0]}}:{{value[1] < 10 ? 0 : ''}}{{value[1]}}
+  </div>
+  <div>
+    {{pomodoroCount}}
+  </div>
+  <div *ngIf="!isBreak">
+    <ion-button color="success" (click)="startTimer()">
+      <ion-icon name="play-outline"></ion-icon>
+    </ion-button>
+    <ion-button color="danger" (click)="stopTimer()">
+      <ion-icon name="stop-outline"></ion-icon>
+    </ion-button>
+  </div>
+  <div *ngIf="isBreak">
+    <ion-button color="success" (click)="breakStartTimer()">
+      Break! <ion-icon name="cafe-outline"></ion-icon>
+    </ion-button>
+  </div>
   <div id="container">
     <ng-container *ngFor="let sheet of sheets">
       <ion-card>
@@ -21,8 +34,12 @@
         <ion-card-header>
           <ion-card-title>{{ sheet.content }}</ion-card-title>
         </ion-card-header>
-        <h3>{{ sheet.time }}</h3>
-        <ion-button color="success">start!</ion-button>
+        <ion-button color="success" (click)="selectSheetTimer(sheet)">
+          select
+        </ion-button>
+        <p *ngIf="selectedSheet != null && sheet.id == selectedSheet.id">
+          selected!
+        </p>
       </ion-card>
     </ng-container>
     <ion-icon name="add-circle-outline" size="large" (click)="goToCreateSheet()"></ion-icon>
