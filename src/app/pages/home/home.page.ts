@@ -23,7 +23,9 @@ export class HomePage {
   value = [0, 5];
   subscription: Subscription;
   sheets: Sheet[];
-  isbreak: boolean = false;
+  isBreak: boolean = false;
+  isPushedBreak: boolean = false;
+  pomodoroCount: number = 0;
 
   constructor(
     private sheetService: SheetService,
@@ -43,7 +45,6 @@ export class HomePage {
     } else {
       this.s = 0;
     }
-    this.isbreak = this.getbreak();
   }
 
   ngOnDestroy(): void {
@@ -53,6 +54,25 @@ export class HomePage {
   }
 
   startTimer(): void {
+    if (!this.running) {
+      // Set running to true.
+      this.running = true;
+      // Check if the timer is comeplete and if so reset it before starting.
+      if (this.isBreak == false && this.value[0] === 0 && this.value[1] === 0) {
+        this.breakStartTimer();
+      }
+      // Create Rxjs interval to call a update method every second.
+      this.subscription = interval(1000).subscribe(x => this.updateTimer());
+    }
+  }
+
+  breakStartTimer(): void {
+    this.isPushedBreak = true;
+    if (this.pomodoroCount % 4 === 0) {
+      this.value = [0, 8];
+    } else {
+      this.value = [0, 3];
+    }
     if (!this.running) {
       // Set running to true.
       this.running = true;
@@ -76,12 +96,6 @@ export class HomePage {
     }
   }
 
-  getbreak(): boolean {
-    if (this.value[0] === 0 && this.value[1] === 0) {
-      return this.isbreak = true;
-    }
-  }
-
   resetTimer(): void {
     // Set the minutes and seconds back to their original values.
     this.stopTimer();
@@ -91,10 +105,20 @@ export class HomePage {
   updateTimer(): void {
     if (this.running) {
       // Check if the timer is comeplete and if so stop the timer and run onComplete().
-      if (this.value[0] === 0 && this.value[1] === 0) {
+      if (this.isBreak == false && this.value[0] === 0 && this.value[1] === 0) {
         this.stopTimer();
+        this.pomodoroCount += 1;
+        this.isBreak = true;
         // Make a sound/send an alert.
         this.onComplete.emit();
+      } else if (this.isBreak == true && this.value[0] === 0 && this.value[1] === 0) {
+        // Break Timeのときはカウントしない
+        this.stopTimer();
+        this.isBreak = true;
+        if (this.isPushedBreak) {
+          this.isPushedBreak = false;
+          this.isBreak = false;
+        }
       } else if (this.value[0] !== 0 && this.value[1] === 0) {
         this.value = [this.value[0] - 1, 59];
       } else if (this.value[1] !== 0) {
@@ -148,7 +172,10 @@ export class HomePage {
     return new Sheet({
       id: sheet.id,
       content: sheet.content,
-      time: sheet.time
+      count: sheet.count,
+      start_time: sheet.start_time,
+      current_time: sheet.current_time,
+      finish_time: sheet.finish_time
     });
   }
 }

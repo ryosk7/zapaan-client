@@ -2,6 +2,9 @@
   <div class="timer">
     {{value[0] < 10 ? 0 : ''}}{{value[0]}}:{{value[1] < 10 ? 0 : ''}}{{value[1]}}
   </div>
+  <div>
+    {{pomodoroCount}}
+  </div>
   <div id="container">
     <ng-container *ngFor="let sheet of sheets">
       <ion-card>
@@ -18,7 +21,7 @@
         <ion-card-header>
           <ion-card-title>{{ sheet.content }}</ion-card-title>
         </ion-card-header>
-        <div *ngIf="!(this.value[0] === 0 && this.value[1] === 0)">
+        <div *ngIf="!isBreak">
           <ion-button color="success" (click)="startTimer()" >
             <ion-icon name="play-outline"></ion-icon>
           </ion-button>
@@ -26,8 +29,11 @@
             <ion-icon name="stop-outline"></ion-icon>
           </ion-button>
         </div>
-        <div *ngIf="this.value[0] === 0 && this.value[1] === 0">
-          <ion-button color="success" (click)="startTimer()" >
+        {{running}}
+        {{isBreak}}
+        {{isPushedBreak}}
+        <div *ngIf="isBreak">
+          <ion-button color="success" (click)="breakStartTimer()" >
             Break! <ion-icon name="cafe-outline"></ion-icon>
           </ion-button>
         </div>
