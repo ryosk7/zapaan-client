@@ -20,7 +20,7 @@ export class HomePage {
   @Output() onComplete: EventEmitter<any> = new EventEmitter();
 
   running = false;
-  value = [0, 5];
+  value = [25, 0];
   subscription: Subscription;
   sheets: Sheet[];
   isBreak: boolean = false;
@@ -28,6 +28,7 @@ export class HomePage {
   pomodoroCount: number = 0;
 
   selectedSheet: Sheet;
+  beforeSelectedSheet: Sheet;
 
   constructor(
     private sheetService: SheetService,
@@ -58,6 +59,7 @@ export class HomePage {
   startTimer(): void {
     if (!this.running) {
       // Set running to true.
+      this.value = [25, 0];
       this.running = true;
       this.selectSheetTimer(this.selectedSheet);
       // Check if the timer is comeplete and if so reset it before starting.
@@ -72,9 +74,9 @@ export class HomePage {
   breakStartTimer(): void {
     this.isPushedBreak = true;
     if (this.pomodoroCount % 4 === 0) {
-      this.value = [0, 8];
+      this.value = [15, 0];
     } else {
-      this.value = [0, 3];
+      this.value = [5, 0];
     }
     if (!this.running) {
       // Set running to true.
@@ -100,16 +102,14 @@ export class HomePage {
   }
 
   selectSheetTimer(sheet: Sheet): void {
+    if (this.running && this.beforeSelectedSheet != null && this.beforeSelectedSheet != sheet) {
+      this.proguressSheetTimeRecord(this.beforeSelectedSheet);
+    }
     this.selectedSheet = sheet;
+    this.beforeSelectedSheet = this.selectedSheet;
     if (this.running && sheet.isFirstGoOnSheet()) {
-      const currentSheet = this.buildSheet(sheet);
-      currentSheet.start_time = this.currentDateTimeToString();
-      this.updateSheet(currentSheet);
-    } else if (sheet.isFirstGoOnSheet()) {
-      const currentSheet = this.buildSheet(sheet);
-      currentSheet.start_time = this.currentDateTimeToString();
-    } else {
-      return;
+      this.selectedSheet.start_time = this.currentDateTimeToString();
+      this.updateSheet(this.selectedSheet);
     }
   }
 
