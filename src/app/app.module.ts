@@ -14,6 +14,10 @@ import { FormsModule } from '@angular/forms';
 import { SheetCreateComponent } from '../app/pages/sheet-create/sheet-create.component';
 import { SheetUpdateComponent } from '../app/pages/sheet-update/sheet-update.component';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { environment } from '../environments/environment';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +30,9 @@ import { SheetUpdateComponent } from '../app/pages/sheet-update/sheet-update.com
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [
     StatusBar,
