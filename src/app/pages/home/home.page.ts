@@ -6,6 +6,7 @@ import { ApiService } from '../../services/api/api.service';
 import { ModalController } from '@ionic/angular';
 import { SheetCreateComponent } from '../sheet-create/sheet-create.component';
 import { SheetUpdateComponent } from '../sheet-update/sheet-update.component';
+import { AngularTokenService } from 'angular-token';
 
 @Component({
   selector: 'app-home',
@@ -33,10 +34,14 @@ export class HomePage {
   constructor(
     private sheetService: SheetService,
     public apiService: ApiService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private tokenService: AngularTokenService
   ) { }
 
   ngOnInit(): void {
+
+    this.tokenService.processOAuthCallback();
+    this.tokenService.validateToken();
     this.getSheets();
     if (this.m) {
       this.value[0] = this.m;

@@ -17,6 +17,7 @@ import { SheetUpdateComponent } from '../app/pages/sheet-update/sheet-update.com
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
+import { AngularTokenModule } from 'angular-token';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,14 @@ import { environment } from '../environments/environment';
     HttpClientModule,
     FormsModule,
     AngularFireAuthModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularTokenModule.forRoot({
+      apiBase: 'https://localhost:3000',
+      oAuthBase: 'http://localhost:3000',
+      oAuthPaths: {google_oauth2: 'auth/google_oauth2'},
+      oAuthWindowType: 'sameWindow',
+      oAuthCallbackPath: 'oauth_callback'
+    })
   ],
   providers: [
     StatusBar,

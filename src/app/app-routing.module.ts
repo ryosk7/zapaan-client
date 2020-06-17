@@ -7,6 +7,7 @@ const routes: Routes = [
     redirectTo: 'login',
     pathMatch: 'full'
   },
+  { path: 'oauth_callback', loadChildren: () => import('../app/pages/home/home.module').then( m => m.HomePageModule) },
   { path: 'home', loadChildren: () => import('../app/pages/home/home.module').then( m => m.HomePageModule)},
   {
     path: 'login',
