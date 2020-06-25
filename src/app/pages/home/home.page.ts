@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { Sheet } from '../../models/sheet.model';
+import { User } from '../../models/user.model';
 import { SheetService } from '../../services/sheet/sheet.service'
 import { ApiService } from '../../services/api/api.service';
 import { ModalController } from '@ionic/angular';
@@ -30,6 +31,9 @@ export class HomePage {
 
   selectedSheet: Sheet;
   beforeSelectedSheet: Sheet;
+
+  users: User[];
+  currentUser: User;
 
   constructor(
     private sheetService: SheetService,
