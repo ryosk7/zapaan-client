@@ -147,6 +147,7 @@ export class HomePage {
         this.proguressSheetTimeRecord(this.selectedSheet);
         this.pomodoroCount += 1;
         this.isBreak = true;
+        this.goToCreateSheet();
         // Make a sound/send an alert.
         this.onComplete.emit();
       } else if (this.isBreak == true && this.value[0] === 0 && this.value[1] === 0) {
